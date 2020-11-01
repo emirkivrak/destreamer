@@ -13,74 +13,74 @@ export const argv: any = yargs.options({
     username: {
         alias: 'u',
         type: 'string',
-        describe: 'The username used to log into Microsoft Stream (enabling this will fill in the email field for you).',
+        describe: 'Microsoft Stream\'de oturum a\u00E7mak i\u00E7in kullan\u0131lan kullan\u0131c\u0131 ad\u0131 (bunu etkinle\u015Ftirmek e-posta alan\u0131n\u0131 sizin i\u00E7in dolduracakt\u0131r).',
         demandOption: false
     },
     videoUrls: {
         alias: 'i',
-        describe: 'List of urls to videos or Microsoft Stream groups.',
+        describe: 'Ms teams video, video listesi veya grupları',
         type: 'array',
         demandOption: false
     },
     inputFile: {
         alias: 'f',
-        describe: 'Path to text file containing URLs and optionally outDirs. See the README for more on outDirs.',
+        describe: 'indirilerecek URL`leri girdiğiniz input.txt dosyasının yolu, bu dosya hakkında bilgi edinmek için emirkivrak/destreamer veya snobu/destramer readme dosyalarını okuyun.',
         type: 'string',
         demandOption: false
     },
     outputDirectory: {
         alias: 'o',
-        describe: 'The directory where destreamer will save your downloads.',
+        describe: 'Videolarınız kaydolacağı dosya dizininin yolu.',
         type: 'string',
         default: 'videos',
         demandOption: false
     },
     outputTemplate: {
         alias: 't',
-        describe: 'The template for the title. See the README for more info.',
+        describe: 'Başlık için template. Daha fazla bilgi için readme.md okuyunuz.',
         type: 'string',
         default: '{title} - {publishDate} {uniqueId}',
         demandOption: false
     },
     keepLoginCookies: {
         alias: 'k',
-        describe: 'Let Chromium cache identity provider cookies so you can use "Remember me" during login.\n' +
-                  'Must be used every subsequent time you launch Destreamer if you want to log in automatically.',
+        describe: 'Oturum açma sırasında "Beni hatırla" yı kullanabilmeniz için Chromium kimlik sağlayıcı çerezlerini önbelleğe alın.\n' +
+                  'Otomatik olarak oturum a\u00E7mak istiyorsan\u0131z, Destreamer\'\u0131 her ba\u015Flatt\u0131\u011F\u0131n\u0131zda kullan\u0131lmal\u0131d\u0131r.\r\n\r\n.',
         type: 'boolean',
         default: false,
         demandOption: false
     },
     noExperiments: {
         alias: 'x',
-        describe: 'Do not attempt to render video thumbnails in the console.',
+        describe: 'Videoların ufak fotoğraflarını (thumbnail) konsolda gösterme.',
         type: 'boolean',
         default: false,
         demandOption: false
     },
     simulate: {
         alias: 's',
-        describe: 'Disable video download and print metadata information to the console.',
+        describe: 'Video indirme devre dışı bırak, ve videoların metadatalarını konsolda göster.',
         type: 'boolean',
         default: false,
         demandOption: false
     },
     verbose: {
         alias: 'v',
-        describe: 'Print additional information to the console (use this before opening an issue on GitHub).',
+        describe: 'Vidolar hakkında ekstra bilgiyi konsolda göster (gitHub issue açmadan önce lütfen bunu kullanın).',
         type: 'boolean',
         default: false,
         demandOption: false
     },
     closedCaptions: {
         alias: 'cc',
-        describe: 'Check if closed captions are available and let the user choose which one to download (will not ask if only one available).',
+        describe: 'Altyaz\u0131lar\u0131n mevcut olup olmad\u0131\u011F\u0131n\u0131 kontrol edin ve kullan\u0131c\u0131n\u0131n hangisini indirece\u011Fini se\u00E7mesine izin verin (eğer sadece bir tane varsa sormayacak).',
         type: 'boolean',
         default: false,
         demandOption: false
     },
     noCleanup: {
         alias: 'nc',
-        describe: 'Do not delete the downloaded video file when an FFmpeg error occurs.',
+        describe: 'FFmpeg hatası meydana çıktığında dosyayı silme.',
         type: 'boolean',
         default: false,
         demandOption: false
@@ -98,13 +98,13 @@ export const argv: any = yargs.options({
         demandOption: false
     },
     format: {
-        describe: 'Output container format (mkv, mp4, mov, anything that FFmpeg supports).',
+        describe: 'output çıkışı (mkv, mp4, mov, anything that FFmpeg supports).',
         type: 'string',
         default: 'mkv',
         demandOption: false
     },
     skip: {
-        describe: 'Skip download if file already exists.',
+        describe: 'Eğer dosya zaten varsa, atla.',
         type: 'boolean',
         default: false,
         demandOption: false
