@@ -7,7 +7,9 @@
   "version": "2.1.0",
   "description": "Save Microsoft Stream videos for offline enjoyment.",
   "main": "build/src/destreamer.js",
-  "bin": "build/src/destreamer.js",
+  "bin": {
+    "destreamer": "build/src/destreamer.js"
+  },
   "scripts": {
     "build": "echo Transpiling TypeScript to JavaScript... && node node_modules/typescript/bin/tsc && echo Destreamer was built successfully.",
     "test": "mocha build/test",

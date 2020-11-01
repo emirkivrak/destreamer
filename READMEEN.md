@@ -1,46 +1,70 @@
+<a href="https://github.com/snobu/destreamer/actions">
+  <img src="https://github.com/snobu/destreamer/workflows/Node%20CI/badge.svg" alt="CI build status" />
+</a>
+
+# BREAKING
+
+**destreamer v3.0** is just around the corner. Download speed improvement is astonishing and we have a never before seen photo from the design sessions:<br><br>
+![desilva](https://user-images.githubusercontent.com/6472374/93003437-54a7fd00-f547-11ea-8473-e4602993e69d.jpg)
+
+Help us pick a codename for the new release:<br><br>
+![codename](https://user-images.githubusercontent.com/6472374/93003896-20ced680-f54b-11ea-8be1-2c14e0bd3751.png)<br><br>
+Comment in this thread: https://github.com/snobu/destreamer/issues/223
+
 ![destreamer](assets/logo.png)
 
-# Mikrosoft Stream videolarını offline izlemek için bilgisayarınıza kaydeder.
+_(Alternative artwork proposals are welcome! Submit one through an Issue.)_
+
+# Saves Microsoft Stream videos for offline enjoyment
 
 ### v2 Release, codename _Hammer of Dawn<sup>TM</sup>_
 
-[Orjinal Repo](https://github.com/snobu/destreamer) olup tarafımca <b>sadece</b> çevirilmiş ve buildi alınmıştır.
+This release would not have been possible without the code and time contributed by two distinguished developers: [@lukaarma](https://github.com/lukaarma) and [@kylon](https://github.com/kylon). Thank you!
 
-## Feragatname
+### Specialized vesions
 
-Umarız ki, Microsoft Stream için son kullanıcı sözleşmesini bozmaz. HLS akışını sanki bir web tarayıcısıymış gibi diske kaydetmekte, ve akışın uçnoktalarını kötüye kullanmamaktayız. Ancak, Microsoft veya Office 365 yöneticileriniz sizinle küçük beyaz bir odada sohbet etmek isterse hiç bir sorumluluk kabul etmiyorum :)
+- [Politecnico di Milano][polimi]: fork over at https://github.com/SamanFekri/destreamer
+- [Università di Pisa][unipi]: fork over at https://github.com/Guray00/destreamer-unipi
+- [Università della Calabria][unical]: fork over at https://github.com/peppelongo96/UnicalDown
+- [Università degli Studi di Parma][unipr]: fork over at https://github.com/vRuslan/destreamer-unipr
 
-## Direk kullanım 
+## What's new
+### v2.2
 
-Direk kullanmak için (built packages) içinden işletim sisteminize göre olan ZİP dosyasınını indirin ve çalıştırın. 
+- Added title template
 
-Nasıl kullanacağınız kısmında alt kısımda bulunan örnek kullanımlar kısmını inceleyin.
+### v2.1
 
+- Major code refactoring (all credits to @lukaarma)
+- Destreamer is now able to refresh the session's access token. Use this with `-k` (keep cookies) and tick "Remember Me" on login.
+- We added support for closed captions (see `--closedCaptions` below)
 
-<hr>
+## Disclaimer
 
+Hopefully this doesn't break the end user agreement for Microsoft Stream. Since we're simply saving the HLS stream to disk as if we were a browser, this does not abuse the streaming endpoints. However i take no responsibility if either Microsoft or your Office 365 admins request a chat with you in a small white room.
 
+## Prereqs
 
-## Ön Gereksinimler
+- [**Node.js**][node]: You'll need Node.js version 8.0 or higher. A GitHub Action runs tests on all major Node versions on every commit. One caveat for Node 8, if you get a `Parse Error` with `code: HPE_HEADER_OVERFLOW` you're out of luck and you'll need to upgrade to Node 10+.
+- **npm**: usually comes with Node.js, type `npm` in your terminal to check for its presence
+- [**ffmpeg**][ffmpeg]: a recent version (year 2019 or above), in `$PATH` or in the same directory as this README file (project root).
+- [**git**][git]: one or more npm dependencies require git.
 
-- [**Node.js**][node]: 8.0 ve üstü bir Nodejs'e sahip olmanız gerekmekte, tavsiye edilen versiyon 10+ dır.
+Destreamer takes a [honeybadger](https://www.youtube.com/watch?v=4r7wHMg5Yjg) approach towards the OS it's running on. We've successfully tested it on Windows, macOS and Linux.
 
-- **npm**: npm genelde NodeJS indirilip kurulduktan sonra yanında kurulur, terminale `npm` yazarak varlığını kontrol edebilirsiniz.
-- [**ffmpeg**][ffmpeg]: 2019 ve üstü çıkışlı ffmpeg `$PATH` sisteminizde ortam değişkenlerinde tanımlı veya projenin ana dizininde bulunmalıdır.
+## Limits and limitations
 
-ffmpeg [windows için kurulum](https://www.wikihow.com/Install-FFmpeg-on-Windows) tıklayarak kurabilirsiniz.
+Make sure you use the right script (`.sh`, `.ps1` or `.cmd`) and escape char (if using line breaks) for your shell.
+PowerShell uses a backtick [ **`** ] and cmd.exe uses a caret [ **^** ].
 
-- [**git**][git]: NPM paketlerinden bazıları git gerekitirmekte.
+Note that destreamer won't run in an elevated (Administrator/root) shell. Running inside **Cygwin/MinGW/MSYS** may also fail, please use **cmd.exe** or **PowerShell** if you're on Windows.
 
-Destreamer Linux,Windows ve MacOS üzerinde test edilmiş ve çalışmaktadır.
+**WSL** (Windows Subsystem for Linux) is not supported as it can't easily pop up a browser window. It *may* work by installing an X Window server (like [Xming][xming]) and exporting the default display to it (`export DISPLAY=:0`) before running destreamer. See [this issue for more on WSL v1 and v2][wsl].
 
+## Can i plug in my own browser?
 
-
-## Kendi tarayıcım ile kullanabilir miyim
-
-<b> isteğe bağlı, bu kısmı atlayabilirsiniz destramer default olarak [chromium](https://www.chromium.org/Home) kuracak ve bu tarayıcı üzerinden MS Streame giriş yapıp indirme işlemi başlatabilir </b>
-
-Evet kulanabilirsiniz, Eğer tarayıcınız bir takım kimlik doğrulamak eklentileri kullanıyor ise bu doğru olur, bunu yapmak için `src/destreamer.ts` dosyası içinde aşşağıdaki kod parçacığına konumlanın
+Yes, yes you can. This may be useful if your main browser has some authentication plugins that are required for you to logon to your Microsoft Stream tenant.
+To use your own browser for the authentication part, locate the following snippet in `src/destreamer.ts`:
 
 ```typescript
 const browser: puppeteer.Browser = await puppeteer.launch({
@@ -55,34 +79,28 @@ const browser: puppeteer.Browser = await puppeteer.launch({
     });
 ```
 
-`executablePath` kısmına kendi tarayıcınızın yolunu aşşağıdaki biçimde ekleyin
+Now, change `executablePath` to reflect the path to your browser and profile (i.e. to use Microsoft Edge on Windows):
 ```typescript
         executablePath: 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
 ```
 
-Dosya yolu linux ve macOS'da daha farklı gözükecektir.
+Note that for Mac/Linux the path will look a little different but no other changes are necessary.
 
-Her yaptığınız konfigrasyon için (`npm run build`) ile tekrardan build almanız gerektiğini unutmayın.
+You need to rebuild (`npm run build`) every time you change this configuration.
 
-## Nasıl build alınır
+## How to build
 
-destrameri build etmek için üste belirtilen öngereksinimleri kurduktan sonra aşşağıdaki işlemleri izleyin.
-
+To build destreamer clone this repository, install dependencies and run the build script -
 
 ```sh
 $ git clone https://github.com/snobu/destreamer
-veya 
-git clone https://github.com/emirkivrak/destreamer (türkçe)
-
-
 $ cd destreamer
 $ npm install
 $ npm run build
 ```
 
-## Kullanım
+## Usage
 
-destreamer ile yapabilecekleriniz yazmaktadır, bu standart çıktı sizde türkçe gözükecek.
 ```
 $ ./destreamer.sh
 
@@ -121,15 +139,11 @@ Options:
 
 - Passing `--username` is optional. It's there to make logging in faster (the username field will be populated automatically on the login form).
 
-- `-o` parametresi ile tam dizin yolu vererek dosyanın nereye indirileceğini söyleyebilirsiniz `/mnt/videos`.
+- You can use an absolute path for `-o` (output directory), for example `/mnt/videos`.
 
-- default olarak çıkış formatı `mkv` dir bunu `--format mp4` şeklinde değiştirebilirsiniz.
+- We default to `.mkv` for the output container. If you prefer something else (like `mp4`), pass `--format mp4`.
 
-## Örnek kullanımlar
-
-örnekler linux üzerinde yapıldı, işletim sisteminize göre powershell/terminal/cmd kullanabilirsiniz
-
-Bir video indir
+Download a video -
 ```sh
 $ ./destreamer.sh -i "https://web.microsoftstream.com/video/VIDEO-1"
 ```
@@ -139,7 +153,7 @@ Download a video and re-encode with HEVC (libx265) -
 $ ./destreamer.sh -i "https://web.microsoftstream.com/video/VIDEO-1" --vcodec libx265
 ```
 
-Username girişi ile msteamse bağlanma süreni kısalt -
+Download a video and speed up the interactive login by automagically filling in the username -
 ```sh
 $ ./destreamer.sh -u user@example.com -i "https://web.microsoftstream.com/video/VIDEO-1"
 ```
@@ -206,20 +220,9 @@ iTerm2 on a Mac -
 
 By default, downloads are saved under project root `Destreamer/videos/` ( Not the system media Videos folder ), unless specified by `-o` (output directory).
 
-
-## Limits and limitations
-
-İşletim sistemninize göre doğru scripti ve kaçış karakterini kullandığınıza emin olun (`.sh`, `.ps1` or `.cmd`) 
-PowerShell backtick [ **`** ] ve cmd.exe caret kullanmakta[ **^** ].
-
-Note that destreamer won't run in an elevated (Administrator/root) shell. Running inside **Cygwin/MinGW/MSYS** may also fail, please use **cmd.exe** or **PowerShell** if you're on Windows.
-
-**WSL** (Windows Subsystem for Linux) is not supported as it can't easily pop up a browser window. It *may* work by installing an X Window server (like [Xming][xming]) and exporting the default display to it (`export DISPLAY=:0`) before running destreamer. See [this issue for more on WSL v1 and v2][wsl].
-
 ## Contributing
 
 Contributions are welcome. Open an issue first before sending in a pull request. All pull requests require at least one code review before they are merged to master.
-
 
 ## Found a bug?
 
